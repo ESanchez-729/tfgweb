@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,37 +7,46 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import beluga from "../resources/images/beluga.jpg";
 import {Link} from 'react-router-dom';
+import { useState, MouseEvent } from 'react';
+import ProfileViewmodel from '../viewmodels/ProfileViewmodel';
+import { Drawer, List, ListItem, ListItemText } from '@mui/material';
+import LoginDialog from './LoginDialog';
+import { observer } from 'mobx-react';
 
-const pages = ['Search', 'Library', 'Community', 'Profile'];
-const settings = ['Profile', 'Library', 'Friends', 'Logout'];
-const links = ['/search-page', '/user-library', '/community', '/user-profile']
+const pages = ['Buscar Juegos', 'Buscar Usuarios', 'Librería', 'Amigos'];
+const links = ['/search_games', '/search_users', '/library', '/friends'];
 
 const NavBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const vm = ProfileViewmodel.getInstance()
+
+  const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
+  var settings : string[] = []
+  var settingsLinks : string[] = []
+
+  if (vm.isLoggedIn) {
+    settings = ['Perfil', 'Cerrar Sesión'];
+    settingsLinks = ['/profile', '/logout'];
+  } else {
+    settings = ['Iniciar Sesión'];
+    settingsLinks = ['/login'];
+  }
+
   return (
-    <AppBar position="static" sx={{ backgroundColor: "black" }}>
+    <AppBar position="fixed" sx={{ backgroundColor: "black" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -58,46 +66,82 @@ const NavBar = () => {
             MY VIDEOGAME COLLECTION
           </Typography>
 
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+           {pages.map((page, index) => {
+              if( (links[index] === "/library" || links[index] === "/friends") && !vm.isLoggedIn){
+                return (
+                  <LoginDialog buttonName={page} key={index}/>
+                )
+              } else if(links[index] === "/library" || links[index] === "/friends") {
+                return (
+                  <Link to={links[index] + "?uid=" + vm.getCurrentUserId} key={index} style={{textDecoration: "none", color: "white"}}>
+                    <ListItem button>
+                      <ListItemText primary={page} />
+                    </ListItem>
+                  </Link>
+                )
+              } else {
+                return (
+                  <Link to={links[index]} key={index} style={{textDecoration: "none", color: "white"}}>
+                    <ListItem button>
+                      <ListItemText primary={page} />
+                    </ListItem>
+                  </Link>
+                )
+              }
+            })}
+          </Box>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={() => { setDrawerOpen(true) }}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
+            <Drawer
+              anchor="left"
+              open={drawerOpen}
+              onClose={() => { setDrawerOpen(false) }}
             >
-                {pages.map((page, i) => {
-                  return (
-                    <Link key={page} to={links[i]}>
-                      <MenuItem onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page}</Typography>
-                      </MenuItem>
-                    </Link>
-                  )
-                })}
-            </Menu>
+              <Box
+                role="presentation"
+                onClick={() => { setDrawerOpen(false) }}
+                onKeyDown={() => { setDrawerOpen(false) }}
+              >
+                <List>
+                  {pages.map((page, index) => {
+                    if( (links[index] === "/library" || links[index] === "/friends") && !vm.isLoggedIn){
+                      return (
+                        <LoginDialog buttonName={page} key={index}/>
+                      )
+                    } else if(links[index] === "/library" || links[index] === "/friends") {
+                      return (
+                        <Link to={links[index] + "?uid=" + vm.getCurrentUserId} key={index} style={{textDecoration: "none", color: "white"}}>
+                          <ListItem button>
+                            <ListItemText primary={page} />
+                          </ListItem>
+                        </Link>
+                      )
+                    } else {
+                      return (
+                        <Link to={links[index]} key={index} style={{textDecoration: "none", color: "black"}}>
+                          <ListItem button>
+                            <ListItemText primary={page}/>
+                          </ListItem>
+                        </Link>
+                      )
+                    }
+                  })}
+                </List>
+              </Box>
+            </Drawer>
           </Box>
+
           <SportsEsportsIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h4"
@@ -116,26 +160,10 @@ const NavBar = () => {
           >
             MyVC
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page, i) => (
-              <Link style={{textDecoration: "none"}} key={page} to={links[i]}>
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: 'white',
-                  display: 'block',
-                  textTransform: "none",
-                }}>
-                {page}
-              </Button>
-              </Link>
-            ))}
-          </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" src={beluga} />
+              <Avatar alt="Pfp" src={vm.getCurrentProfilePic || beluga} sx={{border: "3px solid #ffffff" }}/>
             </IconButton>
             <Menu
               sx={{
@@ -159,11 +187,27 @@ const NavBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu} sx={{ paddingRight: '3em' }}>
-                  <Typography textAlign="left">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {settings.map((setting, i) => {
+                if(settingsLinks[i] === "/login") {
+                  return (
+                    <LoginDialog buttonName={setting} key={i}/>
+                  )
+                } else if(settingsLinks[i] === "/logout") {
+                  return (
+                    <MenuItem key={i} onClick={() => {vm.deleteLoggedUser()}}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  )
+                } else {
+                  return (
+                    <Link to={settingsLinks[i] + "?uid=" + vm.getCurrentUserId} style={{textDecoration: 'none', color: "white"}} key={setting}>
+                      <MenuItem>
+                        <Typography textAlign="center">{setting}</Typography>
+                      </MenuItem>
+                    </Link>
+                  )
+                }
+              })}
             </Menu>
           </Box>
         </Toolbar>
@@ -171,4 +215,4 @@ const NavBar = () => {
     </AppBar>
   );
 };
-export default NavBar;
+export default observer(NavBar);
