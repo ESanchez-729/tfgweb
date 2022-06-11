@@ -74,14 +74,16 @@ const SearchUsersView = () => {
       }
 
     return (
-        <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+        <Box>
             <Typography fontSize={"2em"} sx={{mb: "5%"}}>{currentUName + " Friends"}</Typography>
-            {currentUsers?.map((user, i) => {
-                return (
-                    <UserCard userPfp={user.avatar_url} userName={user.username} userGames={user.library.length} key={i}
-                            style={{maxWidth: "25em", minWidth: "25em", margin: "1%", border: "1px solid black"}}/>
-                )
-            })}
+            <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+                {currentUsers?.map((user, i) => {
+                    return (
+                        <UserCard userPfp={user.avatar_url} userName={user.username} userGames={user.library.length} key={i}
+                                style={{maxWidth: "25em", minWidth: "25em", margin: "1%", border: "1px solid black"}}/>
+                    )
+                })}
+            </Box>
         </Box>
     )
 

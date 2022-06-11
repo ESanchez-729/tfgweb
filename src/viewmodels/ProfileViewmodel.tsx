@@ -54,6 +54,7 @@ class ProfileViewmodel {
                     if(profile !== null) {
                         this.loggedUser = profile!
                         this.loggedIn = true
+                        ProfileViewmodel.db.auth.setAuth(accessCookie)
                     } else {
                         this.loggedUser = {}
                         this.loggedIn = false

@@ -75,7 +75,6 @@ export default function LoginDialog({buttonName} : Props) {
           CookieManager.setCookie("SBAccessToken", session!.access_token, 10)//10 horas
           CookieManager.setCookie("SBRefreshToken", session!.refresh_token!, 4320)//180 dias
           vm.requestLoggedUser()
-          console.log(CookieManager.getCookie("SBAccessToken"))
 
         } else if (error !== undefined) {
             console.log(error)
@@ -102,7 +101,7 @@ export default function LoginDialog({buttonName} : Props) {
               description: "", country: 0, related_accounts: [] }
           ])
 
-          if(error !== undefined) {
+          if(error !== undefined && error !== null) {
             console.log(error)
           } else if (data !== null && data !== undefined) {
 
@@ -116,7 +115,6 @@ export default function LoginDialog({buttonName} : Props) {
               CookieManager.setCookie("SBAccessToken", session!.access_token, 10)//10 horas
               CookieManager.setCookie("SBRefreshToken", session!.refresh_token!, 4320)//180 dias
               vm.requestLoggedUser()
-              console.log(CookieManager.getCookie("SBAccessToken"))
       
             } else if (error !== undefined) {
                 console.log(error)
@@ -258,7 +256,6 @@ export default function LoginDialog({buttonName} : Props) {
                 variant="contained"
                 onClick={(e) => {
                     e.preventDefault()
-                    console.log("register")
                     submitRegister()
                 }}
                 sx={{ mt: "15%" }}
