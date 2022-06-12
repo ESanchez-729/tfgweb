@@ -54,9 +54,18 @@ const GameCard = ( {title, score, platforms, cover, style, imageSize} : Props) =
     return (
         <Card sx={style}>
             <CardActionArea>
-                
+                <Avatar
+                        sx={{
+                            bgcolor: getScoreColor(),
+                            width: "2.5em",
+                            height: "2.5em",
+                            position: "absolute",
+                            margin: "0.5em"
+                        }}
+                    >
+                    {verifyScore()}
+                </Avatar>
                 <div style={{overflow: "hidden"}}>
-                    {/* TODO Meter zoom programaticamente */}
                     <CardMedia
                         component="img"
                         height= {imageSize}
@@ -70,23 +79,12 @@ const GameCard = ( {title, score, platforms, cover, style, imageSize} : Props) =
                         }}
                     />
                 </div>
-                {/*Poner el heigth este tambien programaticamente */}
                 <CardContent sx={{height:"20em"}}>
                     <Grid style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                         <Typography gutterBottom variant="h5" component="div" fontSize={getFontSize()}>
                             {title}
                         </Typography>
-                        <Avatar
-                            sx={{
-                                bgcolor: getScoreColor(),
-                                width: "1.5em",
-                                height: "1.5em"
-                            }}
-                        >
-                        {verifyScore()}
-                        </Avatar>
                     </Grid>
-                    {/*Cambiar por algo como estado + platforms*/}
                     <Typography variant="body2" color="text.secondary" sx={{mt: "5%"}}>
                         {platforms}
                     </Typography>
