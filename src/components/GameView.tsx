@@ -483,9 +483,13 @@ const GameView = () => {
                                         return (
                                             <RouterLink to={"/game?id=" + sg.id} style={{ textDecoration: "none", color: "black" }} onClick={() => { loadData() }}>
                                                 <Box sx={{ display: "flex", flexDirection: "column", margin: "1%" }}>
+                                                    {(sg.cover) ?
                                                     <img
-                                                        src={getBigCover(sg.cover.url || "")}
-                                                        style={{ width: "200px", height: "320px" }} />
+                                                    src={getBigCover(sg.cover.url || "")}
+                                                    style={{ width: "200px", height: "320px" }} /> :
+                                                    <img
+                                                        src={getBigCover("")}
+                                                        style={{ width: "200px", height: "320px" }} />}
                                                     <Typography sx={{ fontSize: "1.2em", mt: "5%", height: "120px" }}>{sg.name}</Typography>
                                                 </Box>
                                             </RouterLink>
