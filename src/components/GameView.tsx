@@ -507,9 +507,13 @@ const GameView = () => {
                                         return (
                                             <RouterLink to={"/game?id=" + dlc.id} style={{ textDecoration: "none", color: "black" }} onClick={() => { loadData() }}>
                                                 <Box sx={{ display: "flex", flexDirection: "column", margin: "1%" }}>
+                                                    {(dlc.cover) ?
                                                     <img
-                                                        src={getBigCover(dlc.cover?.url || "")}
-                                                        style={{ width: "200px", height: "320px" }} />
+                                                    src={getBigCover(dlc.cover.url || "")}
+                                                    style={{ width: "200px", height: "320px" }} /> :
+                                                    <img
+                                                        src={getBigCover("")}
+                                                        style={{ width: "200px", height: "320px" }} />}
                                                     <Typography sx={{ fontSize: "1.2em", mt: "5%", height: "120px" }}>{dlc.name}</Typography>
                                                 </Box>
                                             </RouterLink>
@@ -526,9 +530,13 @@ const GameView = () => {
                                         return (
                                             <RouterLink to={"/game?id=" + expansion.id} style={{ textDecoration: "none", color: "black" }} onClick={() => { loadData() }}>
                                                 <Box sx={{ display: "flex", flexDirection: "column", margin: "1%" }}>
+                                                    {(expansion.cover) ?
                                                     <img
-                                                        src={getBigCover(expansion.cover?.url || "")}
-                                                        style={{ width: "200px", height: "320px" }} />
+                                                    src={getBigCover(expansion.cover.url || "")}
+                                                    style={{ width: "200px", height: "320px" }} /> :
+                                                    <img
+                                                        src={getBigCover("")}
+                                                        style={{ width: "200px", height: "320px" }} />}
                                                     <Typography sx={{ fontSize: "1.2em", mt: "5%", height: "120px" }}>{expansion.name}</Typography>
                                                 </Box>
                                             </RouterLink>
