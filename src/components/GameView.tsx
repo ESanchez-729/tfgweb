@@ -419,7 +419,7 @@ const GameView = () => {
 
                     <Box sx={{display: "flex", flexDirection: "row", width: "880px", ml: "0"}}>
                         {(gameData?.similar_games) ? 
-                            <div style={{display: "flex", flexDirection: "column", alignItems: "flex-start", marginRight: "12%"}}>
+                            <div style={{display: "flex", flexDirection: "column", alignItems: "flex-start", marginRight: "10%"}}>
                                 <Typography sx={{fontSize: "2em", mb: "5%", mt: "10%"}}>Similar Games</Typography>
                                 <Carousel sx={{minWidth: "200px"}}>
                                     {gameData?.similar_games.map((sg) => {
@@ -439,7 +439,7 @@ const GameView = () => {
                             </div> : null}
 
                         {(gameData?.dlcs) ? 
-                            <div style={{display: "flex", flexDirection: "column", alignItems: "flex-start", marginRight: "12%"}}>
+                            <div style={{display: "flex", flexDirection: "column", alignItems: "flex-start", marginRight: "11%"}}>
                                 <Typography sx={{fontSize: "2em", mb: "5%", mt: "10%"}}>DLC</Typography>
                                 <Carousel sx={{minWidth: "200px"}}>
                                     {gameData?.dlcs.map((dlc) => {
