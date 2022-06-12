@@ -95,6 +95,14 @@ class ProfileViewmodel {
         this.loggedIn = false
     }
 
+    @action editProfile = (profile : ProfileSB) => {
+
+        ProfileViewmodel.db.from<ProfileSB>("profile")
+            .upsert(profile)
+
+        this.loggedUser = profile
+    }
+
     @computed get isLoggedIn() {
         return this.loggedIn
     }
@@ -105,6 +113,10 @@ class ProfileViewmodel {
 
     @computed get getCurrentUserName() {
         return this.loggedUser.username
+    }
+
+    @computed get getCurrentCompleteUser() {
+        return this.loggedUser
     }
 
     @computed get getCurrentUserId() {

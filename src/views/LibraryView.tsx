@@ -38,6 +38,7 @@ const LibraryView = () => {
 
     const [currentData, setData] = useState<item[]>();
     const [currentUName, setUName] = useState("");
+    const [currentGameQ, setGameQ] = useState(0);
     const [value, setValue] = useState(0);
     const queryParams = new URLSearchParams(window.location.search);
     const vm = ProfileViewmodel.getInstance()
@@ -51,7 +52,7 @@ const LibraryView = () => {
             getCurrentUsername().then(response => setUName(response || ""))
         })
         
-    }, []);
+    }, [queryParams.get('uid')]);
 
     const handleChange = (event: SyntheticEvent, newValue: number) => {
       setValue(newValue);
@@ -62,6 +63,8 @@ const LibraryView = () => {
       let {data} = await vm.getDB
       .from<item>('library')
       .select('status, game(game_id, name, cover)').eq('user_id', queryParams.get('uid') || "")
+
+      setGameQ(data?.length || 0)
 
       console.log(data)
       return data
@@ -75,6 +78,8 @@ const LibraryView = () => {
       .select('status, game(game_id, name, cover)')
       .eq('user_id', queryParams.get('uid') || "")
       .eq('status', StatusEnum[reference])
+
+      setGameQ(data?.length || 0)
 
       console.log(data)
       setData(data || [])
@@ -128,7 +133,8 @@ const LibraryView = () => {
   
     return (
       <Box>
-        <Typography fontSize={"2em"} sx={{mb: "5%"}}>{currentUName + " Games"}</Typography>
+        <Typography fontSize={"2em"} sx={{mb: "1%"}}>{currentUName + " Games"}</Typography>
+        <Typography fontSize={"1.5em"} sx={{mb: "5%"}}>{"Size: " + currentGameQ}</Typography>
         <Tabs sx={{maxWidth: "5px", display: "contents", ".css-jpln7h-MuiTabs-scroller": {width: "50%", "@media only screen and (max-width: 1000px)": {width: "100%"}}}}
           value={value}
           onChange={handleChange}

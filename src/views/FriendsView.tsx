@@ -20,7 +20,7 @@ const SearchUsersView = () => {
             getCurrentUsername().then(response => setUName(response || ""))
         })
         
-    }, []);
+    }, [queryParams.get('uid')]);
 
     const getFriendList = async () => {
 
@@ -71,7 +71,21 @@ const SearchUsersView = () => {
                 {currentUsers?.map((user: ProfileSB, i) => {
                     return (
                         <UserCard userData={user} key={i}
-                                style={{maxWidth: "25em", minWidth: "25em", margin: "1%", border: "1px solid black"}}/>
+                            style={{
+                            maxWidth: "25em", 
+                            minWidth: "25em", 
+                            margin: "1%", 
+                            border: "1px solid black",
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "flex-start",
+                            "&:hover": {
+                                ".pfpUserImage" :{
+                                    transition: "transform .9s",
+                                    transform: "scale(1.3)"
+                                }
+                            }
+                            }}/>
                     )
                 })}
             </Box>
