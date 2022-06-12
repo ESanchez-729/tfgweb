@@ -6,6 +6,7 @@ import GameCard from "../components/GameCard";
 import Tilt from 'react-parallax-tilt';
 import GameSB from "../models/GameSB";
 import ProfileViewmodel from "../viewmodels/ProfileViewmodel";
+import { Link } from "react-router-dom";
 
 const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 const itemsPerPage = 30
@@ -189,20 +190,22 @@ const SearchGamesView = () => {
                 {currentData?.map((item : any, i: number) => {
                     return(
                         <Tilt tiltAxis="y" glareEnable={true} glareMaxOpacity={0.1} tiltReverse={true}>
-                            <GameCard 
-                                title={item.name}
-                                cover={item.cover}
-                                platforms={item.platforms}
-                                score={item.total_rating}
-                                key={item.game_id}
-                                style={{
-                                width: 200,
-                                m: 3,
-                                height: "17em",
-                                maxHeight: "420px",
-                                minHeight: "420px"
-                                }}
-                                imageSize={250}/>
+                            <Link to={"/game?id=" + item.game_id} style={{textDecoration: "none"}}>
+                                <GameCard 
+                                    title={item.name}
+                                    cover={item.cover}
+                                    platforms={item.platforms}
+                                    score={item.total_rating}
+                                    key={item.game_id}
+                                    style={{
+                                    width: 200,
+                                    m: 3,
+                                    height: "17em",
+                                    maxHeight: "420px",
+                                    minHeight: "420px"
+                                    }}
+                                    imageSize={250}/>
+                            </Link>
                         </Tilt>
                     )
                 })}

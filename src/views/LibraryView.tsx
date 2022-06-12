@@ -59,31 +59,25 @@ const LibraryView = () => {
 
     const select = async () => {
       
-      if(vm.isLoggedIn) {
-            let {data} = await vm.getDB
-            .from<item>('library')
-            .select('status, game(game_id, name, cover)').eq('user_id', queryParams.get('uid') || "")
-    
-            console.log(data)
-            return data
+      let {data} = await vm.getDB
+      .from<item>('library')
+      .select('status, game(game_id, name, cover)').eq('user_id', queryParams.get('uid') || "")
 
-       } 
+      console.log(data)
+      return data
 
     }
 
     const selectWithStatus = async (reference : number) => {
       
-      if(vm.isLoggedIn) {
-            let {data} = await vm.getDB
-            .from<item>('library')
-            .select('status, game(game_id, name, cover)')
-            .eq('user_id', queryParams.get('uid') || "")
-            .eq('status', StatusEnum[reference])
-    
-            console.log(data)
-            setData(data || [])
+      let {data} = await vm.getDB
+      .from<item>('library')
+      .select('status, game(game_id, name, cover)')
+      .eq('user_id', queryParams.get('uid') || "")
+      .eq('status', StatusEnum[reference])
 
-       } 
+      console.log(data)
+      setData(data || [])
 
     }
 
