@@ -135,6 +135,7 @@ export default function LoginDialog({buttonName} : Props) {
       registerEmail.includes('@') &&
       registerEmail.includes('.') &&
       registerUsername.trim() !== "" &&
+      registerUsername.length < 16 &&
       registerPassword.length > 6)
   }
 
