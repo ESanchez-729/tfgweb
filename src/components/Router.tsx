@@ -4,6 +4,7 @@ import LibraryView from "../views/LibraryView";
 import SearchGamesView from "../views/SearchGamesView";
 import SearchUsersView from "../views/SearchUsersView";
 import GameView from "./GameView";
+import MenuView from "./MenuView";
 import Skeleton from './Skeleton';
 
 const Router = () => {
@@ -16,7 +17,7 @@ const Router = () => {
                 <Route path="/library" element={<Skeleton contenido={<LibraryView/>}/>}/>
                 <Route path="/friends" element={<Skeleton contenido={<FriendsView/>}/>}/>
                 <Route path="/game" element={<Skeleton contenido={<GameView/>}/>}/>
-                <Route path="*" element={<Skeleton contenido={<div></div>}/>}/>
+                <Route path="*" element={<Skeleton contenido={<MenuView/>}/>}/>
             </Routes>
         </BrowserRouter>
     )

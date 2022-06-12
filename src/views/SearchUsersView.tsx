@@ -3,18 +3,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import ProfileViewModel from "../viewmodels/ProfileViewmodel"
 import UserCard from "../components/UserCard";
+import ProfileSB from "../models/ProfileSB";
 
-type MiniProfile = {
-
-    library :string[],
-    username: string,
-    avatar_url: string,
-
-}
 
 const SearchUsersView = () => {
 
-    const [currentUsers, setUsers] = useState<MiniProfile[]>()
+    const [currentUsers, setUsers] = useState<ProfileSB[]>()
     const vm = ProfileViewModel.getInstance()
 
     const searchSubmit = (e : any) => {
@@ -26,8 +20,8 @@ const SearchUsersView = () => {
     const search = async (usrnm: string) => {
 
         let {data} = await vm.getDB
-            .from<MiniProfile>('profile')
-            .select('username, avatar_url, library(user_id)')
+            .from<ProfileSB>('profile')
+            .select()
             .ilike('username', "%" + usrnm + "%")
     
         console.log(data)
@@ -46,9 +40,9 @@ const SearchUsersView = () => {
                 onKeyDown={searchSubmit}></TextField>
             </Box>
             <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: "2%"}}>
-                {currentUsers?.map((user, i) => {
+                {currentUsers?.map((user: ProfileSB, i) => {
                     return (
-                        <UserCard userPfp={user.avatar_url} userName={user.username} userGames={user.library.length} key={i}
+                        <UserCard userData={user} key={i}
                             style={{maxWidth: "25em", minWidth: "25em", margin: "1%", border: "1px solid black"}}/>
                     )
                 })}

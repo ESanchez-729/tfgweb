@@ -4,33 +4,32 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
+import ProfileSB from "../models/ProfileSB";
 
 type Props = {
-    userPfp: string,
-    userName: string,
-    userGames: number,
+    userData: ProfileSB,
     style: Object
 }
 
-export default function UserCard({userPfp, userName, userGames, style} : Props) {
+export default function UserCard({userData, style} : Props) {
 
-    const gamesColor = () => {
+    /*const gamesColor = () => {
         switch(true) {
 
-            case (userGames >= 20):
+            case (1 >= 20):
                 return "gold"
 
-            case (userGames >= 15):
+            case (2 >= 15):
                 return "silver"
 
-            case (userGames >= 10):
+            case (3 >= 10):
                 return  "#CD7F32"
 
-            case (userGames < 10):
+            case (4 < 10):
                 return  "black"
             
         }
-    }
+    }*/
 
     return (
         <Card sx={style}>
@@ -51,7 +50,7 @@ export default function UserCard({userPfp, userName, userGames, style} : Props) 
                 <div style={{overflow: "hidden"}}>
                     <CardMedia
                     component="img"
-                    image={userPfp}
+                    image={userData.avatar_url}
                     alt="user pfp"
                     sx={{ 
                         width: "10em", height: "10em",
@@ -69,10 +68,13 @@ export default function UserCard({userPfp, userName, userGames, style} : Props) 
                 }}
                 >
                 <Typography gutterBottom variant="h5" component="div" sx={{fontFamily: 'Helvetica', color: "black", fontWeight: "bold"}}>
-                    {userName}
+                    {userData.username}
                 </Typography>
-                <Typography variant="body1" color={gamesColor()} sx={{fontWeight: 700}}>
-                    Games: {userGames}
+                <Typography variant="body1" color={"black"} sx={{fontWeight: 700}}>
+                    Games: {3}
+                </Typography>
+                <Typography>
+                    Country: {userData.country}
                 </Typography>
                 </CardContent>
             </CardActionArea>

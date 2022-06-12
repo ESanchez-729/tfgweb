@@ -6,18 +6,9 @@ import ProfileViewModel from "../viewmodels/ProfileViewmodel"
 import { observer } from "mobx-react";
 import UserCard from "../components/UserCard";
 
-type MiniProfile = {
-
-    user_id : string,
-    library :string[],
-    username: string,
-    avatar_url: string,
-
-}
-
 const SearchUsersView = () => {
 
-    const [currentUsers, setUsers] = useState<MiniProfile[]>()
+    const [currentUsers, setUsers] = useState<ProfileSB[]>()
     const [currentUName, setUName] = useState("");
     const queryParams = new URLSearchParams(window.location.search);
     const vm = ProfileViewModel.getInstance()
@@ -46,12 +37,12 @@ const SearchUsersView = () => {
 
     const getFriendsData = async (friends : Array<string>) => {
 
-        let fl : MiniProfile[] = []
+        let fl : ProfileSB[] = []
 
         friends.forEach(async (element) => {
             let {data} = await vm.getDB
-                .from<MiniProfile>('profile')
-                .select('user_id, username, avatar_url, library(user_id)')
+                .from<ProfileSB>('profile')
+                .select()
                 .eq("user_id", element).single()
 
             fl.push(data!)
@@ -77,9 +68,9 @@ const SearchUsersView = () => {
         <Box>
             <Typography fontSize={"2em"} sx={{mb: "5%"}}>{currentUName + " Friends"}</Typography>
             <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
-                {currentUsers?.map((user, i) => {
+                {currentUsers?.map((user: ProfileSB, i) => {
                     return (
-                        <UserCard userPfp={user.avatar_url} userName={user.username} userGames={user.library.length} key={i}
+                        <UserCard userData={user} key={i}
                                 style={{maxWidth: "25em", minWidth: "25em", margin: "1%", border: "1px solid black"}}/>
                     )
                 })}
